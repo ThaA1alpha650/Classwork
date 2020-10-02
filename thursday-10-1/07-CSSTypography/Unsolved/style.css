@@ -1,0 +1,26 @@
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    letter-spacing: 2px;
+}
+
+.thought1 {
+    font-weight: bold;
+    letter-spacing: 1px;
+    background-color: beige;
+}
+
+.thought2 {
+    font-size: 20px;
+    color: darkblue;
+    background-color: lavenderblush;
+}
+
+.thought3 {
+    line-height: 30px;
+}
