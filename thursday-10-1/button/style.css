@@ -1,0 +1,140 @@
+nav {
+    height: 10vh;
+    background-color: blue;
+    position: relative;
+}
+
+.nav-links {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translate(0%, -50%);
+}
+
+.nav-links li {
+    display: inline;
+}
+
+.nav-links li:not(:last-child) {
+    margin-right: 10px;
+}
+
+.nav-links li a {
+    color: whitesmoke;
+    text-decoration: none;
+    font-size: 25px;
+}
+
+main {
+    height: 80vh;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: block;
+}
+
+.left,
+.right {
+    width: 50%;
+    height: 80vh;
+}
+
+.left {
+    background-color: yellow;
+    float: left;
+}
+
+.top {
+    height: 50%;
+    background-color: red;
+}
+
+.grid1 {
+    height: 50%;
+    width: 50%;
+    background-color: lavenderblush;
+    float: left;
+}
+
+.grid2 {
+    height: 50%;
+    width: 50%;
+    background-color: orange;
+    float: left;
+}
+
+.grid3 {
+    height: 50%;
+    width: 50%;
+    background-color: greenyellow;
+    float: left;
+}
+
+.grid4 {
+    height: 50%;
+    width: 50%;
+    background-color: pink;
+    float: left;
+}
+
+.right {
+    background-color: cyan;
+    float: right;
+    position: relative;
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: black;
+    height: 60px;
+    width: 60px;
+    border-radius: 15px;
+}
+
+footer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: blue;
+    border-radius: 15px;
+}
+
+button {
+    background-color: aqua;
+    transition: all 0.25s ease-in-out;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+}
+
+button:hover {
+    background-color: blue;
+    transform: translate(1px, -2px);
+    box-shadow: 2px 5px #888888;
+}
+
+button:active {
+    background-color: red;
+}
+
+button:focus {
+    background-color: purple;
+}
+
+.form1 {
+    background-color: lavender;
+    padding: 10px;
+    border: 1px;
+    border-radius: 3px;
+}
+
+label {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: orangered;
+    transform: translate(1px, -2px);
+    box-shadow: 2px 5px #888888;
+}
