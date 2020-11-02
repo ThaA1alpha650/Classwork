@@ -1,0 +1,271 @@
+var timerEl = document.querySelector("#timer")
+var buttonEl = document.querySelector("#startButton")
+var startEl = document.querySelector("#start")
+var quizEl = document.querySelector("#quiz")
+var questionEl = document.querySelector("#question")
+var answerEl = document.querySelector("#answers")
+var doneEl = document.querySelector('#done')
+var submitButton = document.querySelector("#submit")
+var scoreEl = document.querySelector("#score")
+var backButton = document.querySelector("#back")
+var wrongEl = document.querySelector("#wrong")
+var correctEl = document.querySelector("#correct")
+var userScoreEl = document.querySelector("#userScore")
+var nameInput = document.querySelector("#name")
+var userScores = document.querySelector("#userScores")
+var clearButton = document.querySelector("#clear")
+var highScoresWl = document.querySelector("#highScores")
+
+var questionNumber = 0
+
+var timer = 75
+var finalScore = 0
+
+var questions = [{
+        question: "In the array \[\"Pizza\", \"Burger\", \"Salad\", \"Fries\"\] what is the index of Salad?"
+        answer: ["1", "4", "2", "3"],
+        correct: 3,
+    },
+    {
+        question: "Where does the <script></script> tag go in your HTML page?",
+        answer: ["In the </header>", "Before the closing </body> tag", "Anywhere", "In the <nav></nav> bar"],
+        correct: 2,
+    },
+    {
+        question: "To use jQuery you need to ______?",
+        answer: ["Know some javaScript", "Link the jQuery CDN", "Use dev tools for debugging", "all of the above"],
+        correct: 4,
+    },
+    {
+        question: "String values must be enclosed within _______ when being assigned to variables.",
+        answer: ["commas", "curly brackets", "parentheses", "square brackets"],
+        correct: 3,
+    }
+]
+
+
+function toggleDone() {
+    // Toggles the done element
+    // Displays user score
+    if (doneEl.style.display == "none") {
+        doneEl.style.display = "block"
+        userScoreEl.textContent = "Your final score " + finalScore
+    } else {
+        doneEl.style.display = "none"
+
+    }
+}
+
+function toggleScore() {
+
+    // Toggles the score element, Displays top scores
+    while (userScores.lastElementChild) {
+        userScores.removeChild(userScores.lastElementChild);
+    }
+    if (scoreEl.style.display == "none") {
+        scoreEl.style.display = "block"
+
+        Object.keys(localStorage).forEach(element => {
+            var user = document.createElement("li")
+            user.textContent = element + " - " + localStorage.getItem(element)
+            user.setAttribute('class', "bg-secondary text-white p-1 mb-2")
+            userScores.appendChild(user)
+                // console.log(element, element.value )
+
+        });
+
+    } else {
+        scoreEl.style.display = "none"
+
+    }
+}
+
+function toggleStart() {
+    // Toggles the start Element, Instructions and start button
+
+    if (startEl.style.display == "none") {
+        startEl.style.display = "block"
+    } else {
+        startEl.style.display = "none"
+
+    }
+}
+
+function toggleQuiz() {
+    // Toggles the quiz element
+    if (quizEl.style.display == "none") {
+        quizEl.style.display = "block"
+    } else {
+        quizEl.style.display = "none"
+
+    }
+}
+
+function toggleWrong() {
+    // If user picked wrong answer, toggles the wrong element, 1 second timer
+    if (wrongEl.style.display == "none") {
+        wrongEl.style.display = "block"
+        var correctTime = 1
+        var timerInterval = setInterval(function() {
+            correctTime--
+            if (correctTime == 0) {
+                clearInterval(timerInterval)
+                toggleWrong()
+            }
+
+        }, 1000)
+    } else {
+        wrongEl.style.display = "none"
+
+    }
+}
+
+function toggleCorrect() {
+    // If user picked right answer, toggles the wrong element, 1 second timer
+
+    if (correctEl.style.display == "none") {
+        correctEl.style.display = "block"
+
+        var correctTime = 1
+        var timerInterval = setInterval(function() {
+            correctTime--
+            if (correctTime == 0) {
+                clearInterval(timerInterval)
+                toggleCorrect()
+            }
+
+        }, 1000)
+    } else {
+        correctEl.style.display = "none"
+
+    }
+}
+
+function loadQuestion() {
+
+    // Loads Questions
+
+    while (answerEl.lastElementChild) {
+        answerEl.removeChild(answerEl.lastElementChild);
+    }
+
+    if (questions[questionNumber]) {
+        questionEl.textContent = questions[questionNumber].question
+
+        questions[questionNumber].answer.forEach(function(element, i) {
+            var answers = document.createElement("button")
+            answers.textContent = element
+            console.log(i)
+            answers.setAttribute("class", "btn btn-primary  p-3 m-2 ")
+            answers.setAttribute("data-index", i)
+            answerEl.appendChild(answers)
+
+        });
+    } else {
+        // toggleDone()
+        // toggleQuiz()
+        finalScore = timer
+        timer = 1
+    }
+
+}
+
+// Submits the name to local storage
+submitButton.addEventListener("click", function() {
+    toggleDone()
+    var name = nameInput.value.trim()
+    localStorage.setItem(name, timer)
+    toggleScore()
+
+})
+
+// Returns user to home screen
+backButton.addEventListener("click", function() {
+    toggleScore()
+    toggleStart()
+    timerEl.textContent = "Time: 75"
+})
+
+// Set timer for quiz
+function time() {
+    // timer = 75
+    console.log(timer)
+    var timerInterval = setInterval(function() {
+        timer--
+        timerEl.textContent = "Time: " + timer
+
+
+        if (timer == 0) {
+            clearInterval(timerInterval)
+            toggleQuiz()
+            toggleDone()
+        }
+
+    }, 1000)
+
+
+}
+
+// Starts the quiz
+buttonEl.addEventListener("click", function() {
+    timer = 75
+    questionNumber = 0
+    console.log(timer, questionNumber)
+    time()
+
+    toggleStart()
+    toggleQuiz()
+
+    loadQuestion()
+
+
+
+
+    answerEl.addEventListener("click", function(event) {
+        var element = event.target
+
+        if (element.matches("button")) {
+            var index = element.getAttribute("data-index")
+
+            console.log(index, questions[questionNumber].correct)
+
+            if (index == questions[questionNumber].correct) {
+                questionNumber++
+                toggleCorrect()
+                loadQuestion()
+
+            } else {
+                questionNumber++
+                timer -= 15
+                loadQuestion()
+                toggleWrong()
+            }
+
+        }
+    })
+
+
+
+
+
+})
+
+
+// Clears local storage
+clearButton.addEventListener("click", function() {
+    localStorage.clear()
+
+    while (userScores.lastElementChild) {
+        userScores.removeChild(userScores.lastElementChild)
+    }
+
+    toggleScore()
+    toggleScore()
+})
+
+// Shows high scores
+highScoresWl.addEventListener("click", function() {
+    toggleStart()
+    toggleScore()
+
+})
